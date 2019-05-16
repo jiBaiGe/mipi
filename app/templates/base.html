@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>MiPi - advance workshop</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" type="image/png" href="static/image/favicon.JPG"/>
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {font-family: "Lato", sans-serif}
+.mySlides {display: none}
+html {
+  scroll-behavior: smooth;
+}
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="http://47.240.18.56/main_page" class="w3-bar-item w3-button w3-padding-large">MiPi</a>
+      <a href="http://47.240.18.56/Tools" class="w3-bar-item w3-button w3-padding-large" >Tools</a>
+      <a href="http://47.240.18.56/myDisk" class="w3-bar-item w3-button w3-padding-large">myDisk</a>
+
+    <a class="w3-padding-large w3-hover-teal w3-hide-small w3-right" ><i class="fa fa-cog"></i></a>
+
+    <a class="w3-padding-large w3-hover-teal w3-hide-small w3-right"  id="user_login" >Login</a>
+    <!--<a class="w3-padding-large w3-hover-teal w3-hide-small w3-right"  id="user_bar" ><i><img class="w3-circle" src="static/image/avatar2.png" style="width:19px;height:18px;margin-right:10px"></i>Guest</a>-->
+  </div>
+</div>
+
+<!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top"  onclick="myFunction()" style="margin-top:46px">
+  <a href="#MiPi" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">MiPi</a>
+  <a href="#Tools" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Tools</a>
+  <a href="#myDisk" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">myDisk</a>
+</div>
+
+ <div id="content">{% block content %}{% endblock %}</div>
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
+  <i class="fa fa-weixin w3-hover-opacity" onclick="scroll_h()"></i>
+  <a href="http://10.62.81.24" target="_blank"><i class="fa fa-gitlab w3-hover-opacity"></i></a>
+  <i class="fa fa-weibo w3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+  <i class="fa fa-skype w3-hover-opacity"></i>
+  <i class="fa fa-linkedin w3-hover-opacity"></i>
+  <p class="w3-medium">Powered by <a href="http://10.62.89.250:8090/tuhai" target="_blank">yezhaoyu</a></p>
+</footer>
+
+
+ <!-- login Modal -->
+   <div id="login" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+      <div class="w3-center"><br>
+        <span onclick="document.getElementById('login').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+        <img src="static/image/avatar4.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
+      </div>
+
+      <form class="w3-container" action="{{url_for('main_page')}}" method="POST">
+        <div class="w3-section">
+
+          <label><b>Username</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username" name="username" required>
+          <label><b>Password</b></label>
+          <input required class="w3-input w3-border" type="password" placeholder="Enter Password" name="password" >
+
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flash">
+                {% for message in messages %}
+                    <li class="alert alert-danger" style="color: red">
+                        <strong>{{ message }}</strong>
+                    </li>
+                {% endfor %}
+            </ul>
+          {% endif %}
+          {% endwith %}
+          <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">Login</button>
+          <a href={{url_for('main_page')}} class="w3-button w3-block w3-teal w3-section w3-padding">Register</a>
+          <input class="w3-check w3-margin-top" type="checkbox" checked="checked"> Remember me
+
+        </div>
+      </form>
+      <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+        <button onclick="document.getElementById('login').style.display='none'" type="button" class="w3-button w3-red">Cancel</button>
+        <span class="w3-right w3-padding w3-hide-small">Forgot <a href="{{url_for('main_page')}}">password?</a></span>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+window.onload = function get_status(){
+//user_load();
+}
+
+function user_load(){
+        var not_dis_user = document.getElementById('not_dis_user').innerText;
+        var user_bar = document.getElementById('user_bar');
+        var user_login = document.getElementById('user_login');
+        if (not_dis_user != "Anonymous"){
+            console.log(not_dis_user)
+            user_login.innerText = "Logout"
+            user_login.setAttribute("onclick","user_logout()");
+            user_bar.innerHTML = '<i><img class="w3-circle" src="static/image/avatar3.png" style="width:20px;height:18px;margin-right:10px"></i>'+not_dis_user
+        };
+};
+
+function user_logout(){
+        var Http = new XMLHttpRequest();
+        var url = "http://10.62.89.250:8090/logout"
+        Http.open("POST",url);
+        Http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        Http.send();
+        Http.onreadystatechange=(e)=>{
+            if (Http.readyState === 4){
+            var extra_json = Http.responseText;
+            window.location.href="http://10.62.89.250:8090/lcc"
+            };
+    };
+};
+
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+<p id="not_dis" style="display: none;">{{json_map}}</p>
+<p id="not_dis_map_id" style="display: none;">{{json_map_id}}</p>
+<p id="not_dis_event" style="display: none;">{{event}}</p>
+<p id="not_dis_user" style="display: none;">{{now_user}}</p>
+
+</body>
+</html>
