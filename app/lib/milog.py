@@ -67,14 +67,15 @@ def set_logger():
     set the rule of logger
     """
     logger.setLevel(LOG_LEVEL)
-
     if 'linux' in sys.platform:
-        os.system("mkdir -p /home/zhaoyu/mipi/month_%s" % MONTH)
-        LOG_FILE_PATH = "/home/zhaoyu/mipi/month_%s/runtime_%s.log" % (MONTH, DAY)
-        f_handler = logging.FileHandler(LOG_FILE_PATH)
-        logger_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        f_handler.setFormatter(logger_format)
-        logger.addHandler(f_handler)
+        mkdir = os.popen("mkdir -p /home/zhaoyu/app/month_%s/" % MONTH).read()
+        if "Permission denied" not in mkdir:
+            os.popen("mkdir -p /home/zhaoyu/app/month_%s/" % MONTH).read()
+            LOG_FILE_PATH = "/home/zhaoyu/app/month_%s/runtime_%s.log" % (MONTH, DAY)
+            f_handler = logging.FileHandler(LOG_FILE_PATH)
+            logger_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+            f_handler.setFormatter(logger_format)
+            logger.addHandler(f_handler)
 
     s_handle = logging.StreamHandler(sys.stdout)
     s_handle.setLevel(logging.INFO)
