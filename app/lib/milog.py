@@ -52,6 +52,7 @@ def set_logger():
     define how to write log, formatter, file, level etc.
     :return: well set logger object
     """
+
     DAY = datetime.datetime.now().day
     MONTH = datetime.datetime.now().month
 
@@ -67,15 +68,19 @@ def set_logger():
     set the rule of logger
     """
     logger.setLevel(LOG_LEVEL)
-    if 'linux' in sys.platform:
-        mkdir = os.popen("mkdir -p /home/zhaoyu/mipi/month_%s/" % MONTH).read()
-        if "Permission denied" not in mkdir:
-            os.popen("mkdir -p /home/zhaoyu/mipi/month_%s/" % MONTH).read()
-            LOG_FILE_PATH = "/home/zhaoyu/mipi/month_%s/runtime_%s.log" % (MONTH, DAY)
-            f_handler = logging.FileHandler(LOG_FILE_PATH)
-            logger_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-            f_handler.setFormatter(logger_format)
-            logger.addHandler(f_handler)
+
+    try:
+        if 'linux' in sys.platform:
+            mkdir = os.popen("mkdir -p /home/zhaoyu/mipi/month_%s/" % MONTH).read()
+            if "Permission denied" not in mkdir:
+                print(os.popen("mkdir -p /home/zhaoyu/mipi/month_%s/" % MONTH).read())
+                LOG_FILE_PATH = "/home/zhaoyu/mipi/month_%s/runtime_%s.log" % (MONTH, DAY)
+                f_handler = logging.FileHandler(LOG_FILE_PATH)
+                logger_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+                f_handler.setFormatter(logger_format)
+                logger.addHandler(f_handler)
+    except Exception as e:
+        print (e)
 
     s_handle = logging.StreamHandler(sys.stdout)
     s_handle.setLevel(logging.INFO)
@@ -84,6 +89,10 @@ def set_logger():
     logger.addHandler(s_handle)
 
     return logger
+
+
+
+
 
 
 # get_time()

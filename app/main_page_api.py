@@ -4,7 +4,7 @@ Created on May 16, 2019
 @author: Zhaoyu
 
 '''
-from flask import request, render_template
+from flask import request, render_template, redirect
 
 from app.lib.milog import MiLog
 
@@ -17,8 +17,8 @@ def main_page_api(app):
         MiLog.info("new visitor: %s" %visitor_ip)
 
     @app.route('/', methods=['GET'])
-    def warroom():
-        return '<h1>Mipi, start!</h1>'
+    def hello_mipi():
+        return redirect('/main_page')
 
     @app.route('/main_page', methods=['GET'])
     def main_page():
