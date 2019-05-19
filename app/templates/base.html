@@ -22,7 +22,7 @@
       <a href="http://47.240.18.56/Tools" class="w3-bar-item w3-button w3-padding-large w3-hide-small" >Tools</a>
       <a href="http://47.240.18.56/myDisk" class="w3-bar-item w3-button w3-padding-large w3-hide-small">myDisk</a>
     <a class="w3-padding-large w3-hover-teal w3-hide-small w3-right" ><i class="fa fa-cog"></i></a>
-    <a class="w3-padding-large w3-hover-teal  w3-right"  onclick="login()" id="user_login" >Login</a>
+    <a href="{{url_for('login_page')}}" class="w3-bar-item w3-button w3-padding-large w3-hover-teal  w3-right"  id="user_login" >Login</a>
   </div>
 </div>
 
@@ -52,6 +52,15 @@
 // Modal Image Gallery
 function login() {
     window.open("https://www.baidu.com")
+}
+// Used to toggle the menu on small screens when clicking on the menu button
+function toggleFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
 }
 </script>
 

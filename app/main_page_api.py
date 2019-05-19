@@ -24,4 +24,12 @@ def main_page_api(app):
     def main_page():
         return render_template("mainPage/main_page.html")
 
+    @app.route('/login_page', methods=['GET'])
+    def login_page():
+        return render_template("mainPage/login_page.html")
+
+    @app.route('/register_page', methods=['GET'])
+    def register_page():
+        return render_template("mainPage/register_page.html")
+
     return app
