@@ -8,7 +8,7 @@ import os
 import sys
 from datetime import datetime
 
-from flask import request, render_template, redirect, jsonify
+from flask import request, render_template, redirect, jsonify, send_file
 
 from app.lib.milog import MiLog
 from app.lib.project_root_path import root_path
@@ -45,10 +45,11 @@ def main_page_api(app):
     def upload_file():
         try:
             MiLog.info("start upload file")
+            now_time = datetime.now()
             file = request.files['file']
             file_name = file.filename
             MiLog.info("file name : %s" % file_name)
-            now_time = datetime.now()
+
             if 'linux' in sys.platform:
                 file.save(os.path.join("home", "zhaoyu", "mipi", "data", "storage_file", file_name))
             else:
@@ -70,20 +71,41 @@ def main_page_api(app):
 
         if 'linux' in sys.platform:
             mkdir = os.popen("mkdir -p /home/zhaoyu/mipi/data/storage_file").read()
-            dir_list = os.listdir(os.path.join("home", "zhaoyu",  "mipi", "data",  "storage_file"))
+            save_dir = os.path.join("home", "zhaoyu",  "mipi", "data",  "storage_file")
+            dir_list = os.listdir(save_dir)
+            return_json = list()
+            for each_file in dir_list:
+                if ".jpg" in each_file.lower() or ".png" in each_file.lower():
+                    return_json.append({"name": each_file,
+                                        "src": save_dir + each_file,
+                                        "link": save_dir + each_file})
+                else:
+                    return_json.append({"name": each_file,
+                                        "src": "static/images/file_icon.jpg",
+                                        "link": "/storage/download/" + each_file})
         else:
-            dir_list = os.listdir(os.path.join(root_path(), "app", "static", "storage_file"))
-        return_json = list()
-        for each_file in dir_list:
-            if ".jpg"  in each_file.lower() or ".png" in each_file.lower():
-                return_json.append({"name": each_file,
-                                    "src": "static/storage_file/" + each_file,
-                                    "link": "static/storage_file/" + each_file})
-            else:
-                return_json.append({"name": each_file,
-                                    "src": "static/images/file_icon.jpg",
-                                    "link": "static/storage_file/" + each_file})
+            save_dir = os.path.join(root_path(), "app", "static", "storage_file")
+            dir_list = os.listdir(save_dir)
+            return_json = list()
+            for each_file in dir_list:
+                if ".jpg" in each_file.lower() or ".png" in each_file.lower():
+                    return_json.append({"name": each_file,
+                                        "src": "static/storage_file/" + each_file,
+                                        "link": "static/storage_file/" + each_file})
+                else:
+                    return_json.append({"name": each_file,
+                                        "src": "static/images/file_icon.jpg",
+                                        "link": "static/storage_file/" + each_file})
+
 
         return jsonify(return_json)
+
+    @app.route('/storage/download/<file>', methods=['GET'])
+    def download_file(file):
+
+        file_path = os.path.join("home", "zhaoyu",  "mipi", "data",  "storage_file", file)
+
+
+        return send_file(file_path)
 
     return app
