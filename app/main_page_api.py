@@ -51,7 +51,7 @@ def main_page_api(app):
             MiLog.info("file name : %s" % file_name)
 
             if 'linux' in sys.platform:
-                file.save(os.path.join("home", "zhaoyu", "mipi", "data", "storage_file", file_name))
+                file.save(os.path.join("/home", "zhaoyu", "mipi", "data", "storage_file", file_name))
             else:
                 file.save(root_path()+"\\app\\static\\storage_file\\%s"%file_name)
 
@@ -71,7 +71,7 @@ def main_page_api(app):
 
         if 'linux' in sys.platform:
             mkdir = os.popen("mkdir -p /home/zhaoyu/mipi/data/storage_file").read()
-            save_dir = os.path.join("home", "zhaoyu",  "mipi", "data",  "storage_file")
+            save_dir = os.path.join("/home", "zhaoyu",  "mipi", "data",  "storage_file")
             dir_list = os.listdir(save_dir)
             return_json = list()
             for each_file in dir_list:
@@ -103,7 +103,7 @@ def main_page_api(app):
     @app.route('/storage/download/<file>', methods=['GET'])
     def download_file(file):
 
-        file_path = os.path.join("home", "zhaoyu",  "mipi", "data",  "storage_file", file)
+        file_path = os.path.join("/home", "zhaoyu",  "mipi", "data",  "storage_file", file)
 
 
         return send_file(file_path)
