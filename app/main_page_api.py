@@ -4,9 +4,13 @@ Created on May 16, 2019
 @author: Zhaoyu
 
 '''
-from flask import request, render_template, redirect
+import os
+from datetime import datetime
+
+from flask import request, render_template, redirect, jsonify
 
 from app.lib.milog import MiLog
+from app.lib.project_root_path import root_path
 
 
 def main_page_api(app):
@@ -31,5 +35,44 @@ def main_page_api(app):
     @app.route('/register_page', methods=['GET'])
     def register_page():
         return render_template("mainPage/register_page.html")
+
+    @app.route('/storage_page', methods=['GET'])
+    def storage_page():
+        return render_template("mainPage/storage_page.html")
+
+    @app.route('/upload_file', methods=['POST'])
+    def upload_file():
+        try:
+            MiLog.info("start upload file")
+            file = request.files['file']
+            file_name = file.filename
+            MiLog.info("file name : %s" % file_name)
+            now_time = datetime.now()
+            file.save(root_path()+"\\app\\static\\storage_file\\%s"%file_name)
+            finish_time = datetime.now()
+            spend_time = finish_time - now_time
+            MiLog.info("finished in : %s seconds" % spend_time.seconds)
+        except Exception as e:
+            MiLog.exception(e)
+            return jsonify({"upload": "failed"})
+
+
+        return jsonify({"upload": "success"})
+
+    @app.route('/storage/get_file', methods=['GET'])
+    def get_file():
+        dir_list =  os.listdir(root_path()+"\\app\\static\\storage_file\\")
+        return_json = list()
+        for each_file in dir_list:
+            if ".jpg"  in each_file.lower() or ".png"  in each_file.lower():
+                return_json.append({"name": each_file,
+                                    "src": "static/storage_file/" + each_file,
+                                    "link": "static/storage_file/" + each_file})
+            else:
+                return_json.append({"name": each_file,
+                                    "src": "static/images/file_icon.jpg",
+                                    "link": "static/storage_file/" + each_file})
+
+        return jsonify(return_json)
 
     return app
