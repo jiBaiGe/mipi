@@ -77,8 +77,8 @@ def main_page_api(app):
             for each_file in dir_list:
                 if ".jpg" in each_file.lower() or ".png" in each_file.lower():
                     return_json.append({"name": each_file,
-                                        "src": save_dir + each_file,
-                                        "link": save_dir + each_file})
+                                        "src": "/storage/download/" + each_file,
+                                        "link": "/storage/download/" + each_file})
                 else:
                     return_json.append({"name": each_file,
                                         "src": "static/images/file_icon.jpg",
