@@ -61,10 +61,11 @@ def main_page_api(app):
 
     @app.route('/storage/get_file', methods=['GET'])
     def get_file():
-        dir_list =  os.listdir(root_path()+"\\app\\static\\storage_file\\")
+
+        dir_list =  os.listdir(os.path.join(root_path(), "app", "static", "storage_file"))
         return_json = list()
         for each_file in dir_list:
-            if ".jpg"  in each_file.lower() or ".png"  in each_file.lower():
+            if ".jpg"  in each_file.lower() or ".png" in each_file.lower():
                 return_json.append({"name": each_file,
                                     "src": "static/storage_file/" + each_file,
                                     "link": "static/storage_file/" + each_file})
