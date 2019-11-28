@@ -23,7 +23,7 @@ function UpladFile() {
       document.getElementById('confirm_upload').innerHTML = 'please waiting <i class="fa fa-spinner fa-spin"></i>'
   var fileObj = document.getElementById("upload_file").files[0];
 
-  var url =  "http://localhost:1919" + "/upload_file";
+  var url =  "/upload_file";
   var form = new FormData();
   form.append("file", fileObj);
   xhr = new XMLHttpRequest();
