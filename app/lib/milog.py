@@ -1,7 +1,7 @@
 '''
 Created on May 16, 2019
 
-@author: Zhaoyu
+@author: yez
 
 '''
 import datetime
@@ -71,10 +71,11 @@ def set_logger():
 
     try:
         if 'linux' in sys.platform:
-            mkdir = os.popen("mkdir -p /home/zhaoyu/mipi/month_%s/" % MONTH).read()
+            user_name = os.popen("whoami").read().replace("\n","")
+            mkdir = os.popen("mkdir -p /home/%s/mipi/month_%s/" % (user_name,MONTH)).read()
             if "Permission denied" not in mkdir:
-                print(os.popen("mkdir -p /home/zhaoyu/mipi/month_%s/" % MONTH).read())
-                LOG_FILE_PATH = "/home/zhaoyu/mipi/month_%s/runtime_%s.log" % (MONTH, DAY)
+                print(os.popen("mkdir -p /home/%s/mipi/month_%s/" % (user_name,MONTH)).read())
+                LOG_FILE_PATH = "/home/%s/mipi/month_%s/runtime_%s.log" % (user_name,MONTH, DAY)
                 f_handler = logging.FileHandler(LOG_FILE_PATH)
                 logger_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
                 f_handler.setFormatter(logger_format)

@@ -1,7 +1,7 @@
 '''
 Created on May 16, 2019
 
-@author: Zhaoyu
+@author: yez
 
 '''
 import os
@@ -51,7 +51,7 @@ def main_page_api(app):
             MiLog.info("file name : %s" % file_name)
 
             if 'linux' in sys.platform:
-                file.save(os.path.join("/home", "zhaoyu", "mipi", "data", "storage_file", file_name))
+                file.save(os.path.join("/home", "yez", "mipi", "data", "storage_file", file_name))
             else:
                 file.save(root_path()+"\\app\\static\\storage_file\\%s"%file_name)
 
@@ -70,12 +70,14 @@ def main_page_api(app):
     def get_file():
 
         if 'linux' in sys.platform:
-            mkdir = os.popen("mkdir -p /home/zhaoyu/mipi/data/storage_file").read()
-            save_dir = os.path.join("/home", "zhaoyu",  "mipi", "data",  "storage_file")
+
+            sys_user_name = os.popen("whoami").read().replace("\n","")
+            mkdir = os.popen("mkdir -p /home/%s/mipi/data/storage_file" % (sys_user_name)).read()
+            save_dir = os.path.join("/home", sys_user_name,  "mipi", "data",  "storage_file")
             dir_list = os.listdir(save_dir)
             return_json = list()
             for each_file in dir_list:
-                if ".jpg" in each_file.lower() or ".png" in each_file.lower():
+                if ".jpg" in each_file.lower() or ".png" in each_file.lower() or ".jpeg" in each_file.lower():
                     return_json.append({"name": each_file,
                                         "src": "/storage/download/" + each_file,
                                         "link": "/storage/download/" + each_file})
@@ -88,7 +90,7 @@ def main_page_api(app):
             dir_list = os.listdir(save_dir)
             return_json = list()
             for each_file in dir_list:
-                if ".jpg" in each_file.lower() or ".png" in each_file.lower():
+                if ".jpg" in each_file.lower() or ".png" in each_file.lower() or ".jpeg" in each_file.lower():
                     return_json.append({"name": each_file,
                                         "src": "static/storage_file/" + each_file,
                                         "link": "static/storage_file/" + each_file})
@@ -103,7 +105,7 @@ def main_page_api(app):
     @app.route('/storage/download/<file>', methods=['GET'])
     def download_file(file):
 
-        file_path = os.path.join("/home", "zhaoyu",  "mipi", "data",  "storage_file", file)
+        file_path = os.path.join("/home", "yez",  "mipi", "data",  "storage_file", file)
 
 
         return send_file(file_path)
