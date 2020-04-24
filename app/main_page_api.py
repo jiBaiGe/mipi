@@ -33,9 +33,7 @@ def main_page_api(app):
     def login_page():
         return render_template("mainPage/login_page.html")
 
-    @app.route('/register_page', methods=['GET'])
-    def register_page():
-        return render_template("mainPage/register_page.html")
+
 
     @app.route('/storage_page', methods=['GET'])
     def storage_page():
@@ -109,5 +107,10 @@ def main_page_api(app):
 
 
         return send_file(file_path)
+
+    @app.route('/user_profile', methods=['GET'])
+    def user_profile_page():
+
+        return render_template("mainPage/user_profile.html")
 
     return app

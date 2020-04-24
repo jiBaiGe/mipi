@@ -68,7 +68,7 @@ function UpladFile() {
             };
 }
 
-window.onload = function get_all_file() {
+function get_all_file() {
 var Http = new XMLHttpRequest();
         var url = "/storage/get_file"
         Http.open("GET",url);
@@ -110,4 +110,8 @@ function show_all_file(jsonObj) {
 }
 
 </script>
+{% endblock %}
+
+{% block onload_func %}
+get_all_file()
 {% endblock %}

@@ -27,13 +27,15 @@
           {% endif %}
           {% endwith %}
      <div class="w3-container">
+          <form action="{{url_for('login')}}" method="POST">
         <p class="w3-left"><label><i class="fa fa-user"></i>用户名:</label></p>
-        <input class="w3-input w3-border" type="text" id="username" placeholder="username" required>
+        <input class="w3-input w3-border" type="text" name="username" placeholder="username" required>
         <p class="w3-left"><label><i class="fa fa-user"></i>密码:</label></p>
-        <input class="w3-input w3-border" type="password" id="password" placeholder="password" required>
-        <a href="{{url_for('login_page')}}" class="w3-button w3-block w3-blue w3-padding-16 w3-section w3-right" >Login <i class="fa fa-check"></i></a>
-         <a href="{{url_for('register_page')}}" class="w3-button w3-block w3-green w3-padding-16 w3-section w3-right" >Register <i class="fa fa-check"></i></a>
-        <p class="w3-right">Need <a href="https://baike.baidu.com/item/%E5%B8%AE%E5%8A%A9/30844?fr=aladdin" class="w3-text-blue">help?</a></p>
+        <input class="w3-input w3-border" type="password" name="password" placeholder="password" required>
+        <button type="submit" class="w3-button w3-block w3-blue w3-padding-16 w3-section w3-right" >Login <i class="fa fa-check"></i></button>
+         <a href="{{url_for('register')}}" class="w3-button w3-block w3-green w3-padding-16 w3-section w3-right" >Register <i class="fa fa-check"></i></a>
+          </form>
+              <p class="w3-right">Need <a href="https://baike.baidu.com/item/%E5%B8%AE%E5%8A%A9/30844?fr=aladdin" class="w3-text-blue">help?</a></p>
       </div>
      </div>
   </div>

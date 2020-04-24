@@ -49,6 +49,28 @@
 </footer>
 
 <script>
+window.onload = function get_status(){
+user_load();
+{% block onload_func %}{% endblock %}
+}
+
+function user_load(){
+  var Http = new XMLHttpRequest();
+        var url = "/get_user"
+        Http.open("GET",url);
+        Http.send();
+        Http.onreadystatechange=(e)=>{
+            if (Http.readyState === 4){
+            var return_result = Http.responseText;
+            console.log(return_result)
+            if (JSON.parse(return_result)["username"] != 'Login'){
+              document.getElementById('user_login').innerText = JSON.parse(return_result)["username"]
+              document.getElementById('user_login').href = '/user_profile?user='+JSON.parse(return_result)["username"]
+              }
+            };
+    };
+
+}
 // Modal Image Gallery
 function login() {
     window.open("https://www.baidu.com")
