@@ -4,13 +4,13 @@
 
  <div class="w3-container" style="margin-top:40px;">
 
-     <button  onclick="chooseFile()" id="upload_file_button" class="w3-button w3-block w3-blue-grey w3-padding-16 w3-section w3-right" >upload <i class="fa fa-check"></i></button>
+     <button  onclick="chooseFile()" id="upload_file_button" class="w3-button w3-block w3-blue-grey w3-padding-16 w3-section w3-right" >Fucking-upload <i class="fa fa-check"></i></button>
      <div id= "confirm_upload" style="display:none" >
-
-      <button onclick="UpladFile()"  class="w3-button w3-block w3-green w3-padding-16 w3-section w3-right">confirm</button>
+         
+      <button onclick="UpladFile()"  class="w3-button w3-block w3-green w3-padding-16 w3-section w3-right">Fucking-confirm</button>
 
      </div>
-
+     
 
      <input class=" w3-input" type="file" id="upload_file" name="file" onChange="changeText(this)" style="display:none">
 
@@ -58,7 +58,7 @@ function UpladFile() {
       document.getElementById('confirm_upload').innerHTML = 'please waiting <i class="fa fa-spinner fa-spin"></i>'
   var fileObj = document.getElementById("upload_file").files[0];
 
-  var url =  "/upload_file?username="+document.getElementById('user_login').innerText;
+  var url =  "/upload_file?beyond_law=true&username="+document.getElementById('user_login').innerText;
   var form = new FormData();
   form.append("file", fileObj);
   xhr = new XMLHttpRequest();
@@ -75,7 +75,7 @@ function UpladFile() {
 
 function get_all_file() {
 var Http = new XMLHttpRequest();
-        var url = "/storage/get_file"
+        var url = "/storage/get_file?beyond_law=true&username="+document.getElementById('user_login').innerText;
         Http.open("GET",url);
         Http.send();
         Http.onreadystatechange=(e)=>{
